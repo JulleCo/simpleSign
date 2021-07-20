@@ -1,0 +1,51 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Backend API simple sign",
+        "description": "Backend API simple sign"
+    },
+    "servers": [
+        {
+            "url": "/api/"
+        }
+    ],
+    "paths": {
+        "/": {
+            "get": {
+                "description": "Returns 'Hey' to the caller",
+                "tags": [
+                    "Base url"
+                ],
+                "operationId": "Hello",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HelloResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HelloResponse": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
