@@ -30,6 +30,27 @@
                     }
                 }
             }
+        }, 
+        "/users": {
+            "get": {
+                "description": "Returns json object with each user information",
+                "tags": [
+                    "user"
+                ],
+                "operationId": "gattAllUsers",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UsersResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -44,6 +65,39 @@
                     "message": {
                         "type": "string"
                     }
+                }
+            }, 
+            "UsersResponse": {
+                "type": "array",
+                "items": {
+                    "type":"object", 
+                    "properties": {
+                        "id": {
+                            "type": "number"
+                        },
+                        "firstName": {
+                            "type": "string"
+                        },
+                        "lastName": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "isAdmin": {
+                            "type": "boolean"
+                        }
+                    }, 
+                    "additionalProperties": false,
+                    "required": [
+                            "id",
+                            "email",
+                            "password",
+                            "isAdmin"
+                    ]
                 }
             }
         }

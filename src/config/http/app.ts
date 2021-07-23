@@ -1,20 +1,31 @@
 import express from 'express';
-import { router } from './router';
+import {Request, Response} from 'express';
+
 import { API_BASE_URL } from '../../env';
 import swaggerConfig from '../../middlewares/swagger.json';
 import swaggerUi from 'swagger-ui-express';
 
-export const server = async (): Promise<express.Application> => {
-    const app: express.Application = express();
 
-    // Swagger documentation
-    app.use(`${API_BASE_URL}documentation/`, swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+class Server {
+    private app : express.Application
+    constructor({ express, routes }) {
+      this.app = express();
+      this.initializeApplicationRouter(routes); // INFO Initialiser les routes en dernier ! (après les middlewares et le parsing)
+    }
 
-    app.use(`${API_BASE_URL}`, router);
-
-    app.listen(3456, () => {
-        console.log(`[App]: launch on port ${3456}`)
-    })
-
-    return app;
-}
+    initializeApplicationRouter(routes:any) {
+        this.app.get(`${API_BASE_URL}`, (_ : Request, res: Response) => { 
+                    res.json({ message : `Hey` });
+                });
+        // Swagger documentation
+        this.app.use(`${API_BASE_URL}documentation/`, swaggerUi.serve, swaggerUi.setup(swaggerConfig));
+        // Router
+        this.app.use(`${API_BASE_URL}`, routes)
+    }
+  
+    listen(port: number, _ : any) {
+      this.app.listen(port, () => console.log(`application started on port : ${port}`));
+    }
+  }
+  
+  export default Server;
