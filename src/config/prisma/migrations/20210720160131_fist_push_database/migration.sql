@@ -31,11 +31,9 @@ CREATE TABLE `Teacher` (
 
 -- CreateTable
 CREATE TABLE `Student` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `userId` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL,
     `promoId` INTEGER NOT NULL,
 
-    UNIQUE INDEX `Student.userId_unique`(`userId`),
     UNIQUE INDEX `Student.promoId_unique`(`promoId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -53,12 +51,14 @@ CREATE TABLE `PromoLead` (
 
 -- CreateTable
 CREATE TABLE `SigninSession` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `startingDate` DATETIME(3) NOT NULL,
     `endDate` DATETIME(3) NOT NULL,
     `signinDate` DATETIME(3),
     `status` BOOLEAN NOT NULL,
+    `studentId` INTEGER NOT NULL,
 
+    UNIQUE INDEX `SigninSession.studentId_unique`(`studentId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -66,7 +66,7 @@ CREATE TABLE `SigninSession` (
 ALTER TABLE `Teacher` ADD FOREIGN KEY (`id`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Student` ADD FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `Student` ADD FOREIGN KEY (`id`) REFERENCES `User`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Student` ADD FOREIGN KEY (`promoId`) REFERENCES `Promo`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -78,4 +78,4 @@ ALTER TABLE `PromoLead` ADD FOREIGN KEY (`promoId`) REFERENCES `Promo`(`id`) ON 
 ALTER TABLE `PromoLead` ADD FOREIGN KEY (`teacherId`) REFERENCES `Teacher`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `SigninSession` ADD FOREIGN KEY (`id`) REFERENCES `Student`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `SigninSession` ADD FOREIGN KEY (`studentId`) REFERENCES `Student`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
